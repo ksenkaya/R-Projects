@@ -4,6 +4,7 @@ Let's see how they've been improving and was being changing about their game and
 
 
 DATA RESOURCES
+
 "NBA Player Salaries - 2015-2016". ESPN. http://www.espn.com/nba/salaries/_/year/2016
 
 Performance of highest paid 10 Players over the past 10 years:
