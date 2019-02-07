@@ -1,0 +1,634 @@
+---
+title: 'WORKSHOP: Introduction to R'
+author: "Kadir Senkaya"
+date: "February 8, 2019"
+output:
+  html_document:
+    highlight: zenburn
+    theme: flatly
+    toc: yes
+  html_notebook:
+    code_folding: hide
+    fig_height: 5
+    fig_width: 7
+    highlight: zenburn
+    theme: flatly
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+### Software installation
+
+- Download and install R: [https://www.r-project.org/]
+
+- Download and install Rstudio: [https://www.rstudio.com/products/rstudio/download/]
+
+# A. INTRODUCTION to RSTUDIO
+
+Let's start with a couple useful panes.
+
+- Console (entire left)
+- Environment, History (tabbed in upper right)
+- Files, Plots, Packages, Help, Viewer (tabbed in lower right)
+
+If this doesn't look like you, then go to the RStudio menu `Tools -> Global Options  -> Pane Layout` update and Apply. 
+
+***
+
+### Interacting with R
+
+There are two main ways of interacting with R: 
+- Console
+- R Script
+
+The console window is the place where R is waiting for you to tell it what to do, and where it will show the results of a command.
+
+An R script is just a plain text file that you save R code in.
+
+You can type commands directly into the console, but they will be forgotten when you close the session. It is better to enter the commands in the script editor, and save the script.
+
+***
+
+### R Markdown and R Notebook
+
+R Markdown is a file format for making dynamic documents with R.
+R Markdown documents are fully reproducible and support dozens of output formats, like PDFs, Word files, slideshows, and more.
+
+An R Notebook is an R Markdown document with chunks that can be executed independently and interactively, with output visible immediately beneath the input.
+
+***
+
+# B. INTRODUCTION to R
+
+Most important thing at the very beginning is to do print something to screen. So let's do it!
+
+```{r warning=FALSE, results='hide', error=TRUE}
+
+print("Hello World!")
+
+```
+
+
+## 1. Using R as a calculator
+
+The simplest thing you could do with R is do arithmetic:
+
+```{r}
+
+1 + 100
+3 + 5 * 2
+2/10000
+
+```
+
+If you type in an incomplete command, R will wait for you to complete it:
+
+```{r warning=FALSE, results='hide', error=TRUE}
+1 +
+```
+
+Any time you hit return and the R session shows a `+` instead of a `>`, it means it's waiting for you to complete the command. \
+If you want to cancel a command you can simply hit `Esc` and RStudio will give you back the `>` prompt.
+
+## 2. Mathematical functions
+
+R has many built in mathematical functions. To call a function, we simply type its name, followed by open and closing parentheses. \ Anything we type inside the parentheses is called the function's arguments:
+
+```{r}
+
+sin(1) # trigonometry functions
+
+```
+
+```{r}
+
+log(1)  # natural logarithm
+
+```
+
+## 3. Comparing things
+
+We can also do comparison in R:
+
+```{r}
+1 == 1  # equality (read as "is equal to")
+```
+
+```{r}
+1 != 2  # inequality (read as "is not equal to")
+```
+
+```{r}
+1 < 2  # less than
+```
+
+```{r}
+1 <= 1  # less than or equal to
+```
+
+## 4. Variables and assignment
+
+We can store values in variables using the assignment operator `<-`, like this:
+
+```{r}
+
+x <- 1/40
+
+```
+
+Notice that assignment does not print a value. Instead, we stored it for later in something called a variable. x now contains the value `0.025`:
+
+```{r}
+x
+```
+
+Look for the `Environment` tab in one of the panes of RStudio, and you will see that `x` and its value have appeared. Our variable `x` can be used in place of a number in any calculation that expects a number:
+
+```{r}
+log(x)
+```
+
+Notice also that variables can be reassigned:
+
+```{r}
+
+x <- 100
+
+```
+
+It is also possible to use the `=` operator for assignment:
+
+```{r}
+
+x = 1/40
+
+```
+
+> But this is much less common among R users. `<-` is the most common symbol used in the community. So the recommendation is to use `<-`
+
+## 5. Basic Data Types
+
++ **Character:** usually used for text data, and surrounded by "quotation marks"
++ **Numeric:** used for numbers 
++ **Logical:** TRUE and FALSE 
+
+There are 5 main types: **doubles, integers, complex, logical and character.**
+All data in R is interpreted as one of these basic data types.
+
+We can ask what type of data something is:
+
+```{r}
+
+typeof(3.14) #double
+typeof(1L) #integer
+typeof(1+1i) #complex
+typeof(TRUE) #logical
+typeof('banana') #character
+
+```
+
+Let's create some numeric variables!
+```{r}
+
+hoursPerDay <- 24
+daysPerWeek <- 7
+
+```
+
+We can check to make sure that these actually are numeric.
+```{r}
+
+class(hoursPerDay)
+class(daysPerWeek)
+
+```
+
+
+Since this is numeric data, we can do math with it! 
+```{r}
+
+hoursPerWeek <- hoursPerDay * daysPerWeek
+hoursPerWeek
+
+```
+
+
+#### **Challenge 1**
+Create a numeric variable *minutesPerHour* and use it to calcuate a new variable called *minutesPerWeek* that has the number of minutes per week in it.
+
+```{r}
+# Solution to Challenge 1
+
+
+
+```
+
+
+Important! Just because something is a *number* doesn't mean R thinks it's numeric!
+```{r warning=FALSE, results='hide', error=TRUE}
+
+a <- 5
+b <- "6"
+
+a * b # This will get you the error! Becuase b isn't numeric, even though it's a number!
+      
+```
+
+You can change character data to numeric data using the `as.numeric()` function.
+
+```{r}
+
+# to fix b to be a number
+b <- as.numeric(b)
+
+```
+
+You'll get a boolean back if you ask R "are these two things the same?" using `==`
+
+```{r}
+
+"a" == "b"
+1 == 1
+
+```
+
+## 7. Data Structures
+
++ `Vectors`: one-dimensional arrays used to store data of the same type  
++ `Matrices`: two-dimensional arrays to store data of the same type  
++ `Arrays`: similar to matrices but they can be multi-dimensional  
++ `Factors`: vectors of grouped categorical variables   
++ `Lists`: ordered collection of objects, where the elements can be of different types  
++ `Data Frames`: generalization of matrices where different columns can store different data types 
+
+A vector in R is essentially an ordered list of things, with the special condition that *everything in the vector must be the same basic data type.*
+
+Let's make a vector!
+```{r}
+
+# Use c() to construct a vector by concatenating data
+
+# A numeric vector
+num_vec <- c(3, 8, 2, 4) 
+
+# A character vector
+char_vec <- c("A", "B", "C", "D") 
+
+# A logical vector
+log_vec <- c(TRUE, FALSE, TRUE, TRUE) 
+
+```
+
+To extract elements of a vector we can give their corresponding index, starting from one:
+
+```{r}
+# Select first value in 'num_vec' vector
+
+num_vec[1]
+
+```
+
+The square brackets operator is just like any other function. It means **"get me the nth element".**
+
+> *In many programming languages (C and python, for example), the first element of a vector has an index of 0. In R, the first element is 1.*
+
+We can ask for multiple elements at once:
+
+```{r}
+# Select the 1st & 3rd values
+num_vec[c(1,3)] 
+```
+
+To skip elements, we use a negative number as the index of a vector, R will return every element except for the one specified:
+
+```{r}
+
+# Select everything except the 1st & 3rd values
+num_vec[-c(1,3)] 
+
+```
+
+To remove elements from a vector, we need to assign the results back into the variable:
+
+```{r}
+# Remove 4th value
+num_vec <- num_vec[-4]
+```
+
+Let's create a data frame with 3 columns, 4 rows
+
+```{r}
+
+doof <- data.frame("V1" = 1:4, "V2" = c("A", "B", "C", "D"), "V3" = 5:8)
+doof
+
+```
+
+```{r}
+
+# Create a new data frame
+flavour <- c("choc", "strawberry", "vanilla", "choc", "strawberry", "strawberry")
+gender <- c("F", "F", "M", "M", "F", "M")
+
+icecream <- data.frame(flavour, gender)
+
+```
+
+Let's explore the data frame we just created!
+
+```{r}
+
+# Check data frame class
+class(doof)
+
+# Column names
+names(doof)
+
+# Structure of data frame
+str(doof)
+
+# Basic summary stats
+summary(doof)
+
+# View dataframe
+View(doof)
+
+# Shows the first 2 rows
+head(doof, n=2)
+
+# Shows the last 2 rows
+tail(doof, n=2) 
+
+```
+
+#### **Challenge 2**
+Given the following code:
+```{r}
+
+x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
+names(x) <- c('a', 'b', 'c', 'd', 'e')
+print(x)
+
+```
+
+Come up with at least 1 different command that will produce the following output:
+```{r}
+x[c(2,3,4)]
+```
+
+
+```{r}
+# Solution to Challenge 2
+
+
+```
+
+
+## 8. Managing your environment
+
+There are a few useful commands you can use to interact with the R session.
+`ls` will list all of the variables and functions stored in the global environment (your working R session):
+
+```{r}
+ls()
+```
+
+You can use rm to delete objects you no longer need:
+
+```{r}
+rm(x)
+```
+
+## 9. R Packages
+
+It is possible to add functions to R by writing a package, or by obtaining a package written by someone else. \
+- You can see what packages are installed by typing `installed.packages()` \
+- You can install packages by typing `install.packages("packagename")`, where packagename is the package name, in quotes. \
+- You can update installed packages by typing `update.packages()` \
+- You can remove a package with `remove.packages("packagename")` \
+- You can activate a package with `library(packagename)` \
+
+```{r echo =TRUE, warning=FALSE, results='hide', error=TRUE}
+
+install.packages("wordcloud")
+library("wordcloud")
+
+```
+
+#### **Challenge 3**
+Run the following code, and write a command to compare mass to age. Is mass larger than age?
+
+```{r}
+
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+
+```
+
+
+```{r}
+# Solution to Challenge 3
+
+
+```
+
+#### **Challenge 4**
+
+Clean up your working environment by deleting the mass and age variables.
+
+```{r}
+# Solution to Challenge 4
+
+
+```
+
+#### **Challenge 5**
+
+Install the following packages: `dplyr`, `tidyr`
+
+```{r warning=FALSE, results='hide', error=TRUE}
+# Solution to Challenge 5
+
+
+```
+
+## 10. Getting help
+
+R provides help files for functions. To search for help on a function from a specific function that is in a package loaded into your  R session:
+
+```{r}
+
+?boxplot
+help(boxplot)
+example(boxplot)
+
+```
+
+#### **Challenge 6**
+
+Look at the help for the `c` function. What kind of vector do you expect you will create if you evaluate the following:
+
+```{r}
+
+c(1, 2, 3)
+c('d', 'e', 'f')
+
+```
+
+```{r}
+# Solution to Challenge 6
+
+
+```
+
+#### **Challenge 7**
+
+Look at the help for the `print` function.
+
+```{r}
+# Solution to Challenge 7
+
+
+```
+
+## 11. Working directory management
+
+```{r}
+# Check the directory R is currently pointed at
+getwd()
+```
+
+```{r}
+# Specify a directory for R to point at
+# setwd("C:/Users/User Name/Documents/FOLDER") #from the root directory
+```
+
+## 12. Loading datasets from base R
+
+```{r}
+
+# Show available datasets
+data() 
+
+# Load an available dataset
+data("iris") 
+
+```
+
+## 13. Loading existing local data
+
+```{r}
+
+# Import a local csv file
+# diamonds <- read.csv("./Datasets/Mispriced-Diamonds.csv")
+
+# Import a local tab delimited file
+# random_text <- read.table("./Datasets/string.txt", sep = "\t")
+
+# Browse and select the local file
+# office_supplies <- read.csv(file.choose())
+
+# Downloading Remote Data by accessing files from the web
+# webdata <- read.csv("http://sumsar.net/files/posts/2014-02-04-bayesian-first-aid-one-sample-t-test/roubik_2002_coffe_yield.csv")
+
+# Exporting Data Frame
+
+# write.table(object2, "object2_text.txt", sep = "\t")
+# write.csv(object3, "object3_csv.csv")
+
+```
+
+## 14. Basic Functions
+
+Let's play with a data set!
+
+To see what is in the data set we can use function `View()`.
+```{r}
+
+Orange # use View(Orange)
+
+```
+
+Use function `dim()` to see the dimension.
+```{r}
+dim(Orange)
+```
+
+and `str()` to see the structure of the R object
+```{r}
+str(Orange)
+```
+
+See the first 3 rows of this data set, use function `head()` with comma 3:
+```{r}
+
+head(Orange, 3)
+
+```
+
+See the last 3 rows with function `tail()`: 
+```{r}
+
+tail(Orange, 3)
+
+```
+
+If you are interested in just looking at 1 variable, you can use dollar sign to select it:
+```{r}
+
+Orange$age
+
+```
+
+Select 3rd row, 2nd column. To do so use bracket to select rows and columns:
+```{r}
+Orange[3, 2]
+```
+
+Select another cell with row and column
+```{r}
+Orange[10, 3]
+```
+
+Select multiple rows
+```{r}
+Orange[1:5, ]
+```
+
+Selecting multiple rows, `c()` allows you to make your own selection
+```{r}
+Orange[c(1:3, 7:15), ]
+```
+
+#### **Challenge 8**
+
+Select rows until 15th row except 4, 5 and 6th rows, bring only 2nd and 3rd column
+```{r}
+# Solution to Challenge 8
+
+
+
+```
+
+Delete 1st column
+```{r}
+Orange[, -1]
+```
+
+Delete first 3 rows
+```{r}
+Orange[-(1:3), ]
+#Orange[-c(1:3,9:11), ]
+```
+
+#### **Challenge 9**
+
+Deselect rows from 1th to 3rd and 9th to 11th, bring all others.
+```{r}
+# Solution to Challenge 9
+
+```
+
